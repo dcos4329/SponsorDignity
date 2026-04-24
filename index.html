@@ -1,178 +1,248 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sponsor Dignity</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin:0; padding:0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --teal:#2a9d7f;
-  --teal-dark:#1e7a62;
-  --white:#fff;
-  --text:#1a2e28;
+  --teal: #2a9d7f;
+  --teal-dark: #1e7a62;
+  --accent: #f4a261; /* Added a warm accent color */
+  --accent-hover: #e76f51;
+  --white: #ffffff;
+  --bg-light: #f9f9f9;
+  --text-main: #2b2b2b;
+  --text-muted: #555555;
 }
 
 body {
-  font-family:'Source Sans 3',sans-serif;
-  background:#ffffff;
-  color:var(--text);
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--bg-light);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* HERO CARD (Carrd style) */
+/* HERO CARD */
 .hero-wrapper {
-  max-width:1100px;
-  margin:3rem auto 2rem;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 20px 50px rgba(0,0,0,.12);
+  max-width: 1100px;
+  margin: 3rem auto 2rem;
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
 }
 
 /* IMAGE */
 .hero-img {
-  width:100%;
-  height:380px;
-  object-fit:cover;
-  object-position:center 35%;
-  display:block;
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  object-position: center 35%;
+  display: block;
+  border-radius: 20px 20px 0 0;
 }
 
 /* BANNER */
 .hero-banner {
-  background:var(--teal);
-  padding:2rem 2.5rem;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:2rem;
-  flex-wrap:wrap;
+  background: var(--teal);
+  padding: 2.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  border-radius: 20px;
+  margin-top: -40px; /* Overlap effect */
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
 }
 
 .hero-text h1 {
-  font-family:'Playfair Display',serif;
-  font-size:2.8rem;
-  color:white;
-  line-height:1.1;
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
 }
 
 .hero-text p {
-  margin-top:.6rem;
-  font-size:.75rem;
-  letter-spacing:.15em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.85);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.9);
+  font-weight: 600;
+  margin: 0;
 }
 
 /* BUTTONS */
 .hero-buttons {
-  display:flex;
-  gap:.8rem;
-  flex-wrap:wrap;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .btn {
-  border:none;
-  padding:.65rem 1.2rem;
-  background:rgba(255,255,255,.18);
-  border-radius:999px;
-  color:white;
-  font-weight:600;
-  font-size:.9rem;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  gap:.4rem;
-  transition:background .2s, transform .15s;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.btn:hover {
-  background:rgba(255,255,255,.3);
-  transform:translateY(-1px);
+.btn-primary {
+  background: var(--accent);
+  color: var(--white);
+  box-shadow: 0 4px 15px rgba(244, 162, 97, 0.4);
 }
 
-.btn svg { width:16px; height:16px; }
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.15);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.25);
+}
 
 /* SECTIONS */
 section {
-  max-width:850px;
-  margin:3rem auto;
-  padding:0 1.5rem;
-  display:none;
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 3rem;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  display: none;
 }
 
-section.active { display:block; }
+/* Smooth Fade In Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+section.active { 
+  display: block; 
+  animation: fadeIn 0.5s ease forwards;
+}
 
 h2 {
-  font-family:'Playfair Display',serif;
-  font-size:2.2rem;
-  margin-bottom:1.2rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  color: var(--teal-dark);
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(42, 157, 127, 0.2);
+  padding-bottom: 0.5rem;
 }
 
-p { line-height:1.8; margin-bottom:1.2rem; }
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--teal);
+  margin: 2.5rem 0 1rem;
+}
 
-@media(max-width:700px){
-  .hero-banner{padding:1.6rem}
-  .hero-text h1{font-size:2.2rem}
-  .hero-img{height:260px}
+p { 
+  line-height: 1.8; 
+  margin-bottom: 1.5rem; 
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+/* STORY BLOCKQUOTE */
+blockquote {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--teal-dark);
+  border-left: 4px solid var(--accent);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  line-height: 1.6;
+}
+
+@media(max-width: 768px){
+  .hero-banner { padding: 2rem; border-radius: 0 0 20px 20px; margin-top: 0; }
+  .hero-text h1 { font-size: 2.2rem; }
+  .hero-img { height: 300px; border-radius: 20px 20px 0 0; }
+  section { padding: 2rem 1.5rem; margin: 2rem auto; }
 }
 </style>
 </head>
-
 <body>
 
-<!-- HERO --> <div class="hero-wrapper"> <img src="images/dignity.jpg" class="hero-img" alt="Two elderly people sitting together outdoors in a peaceful garden" > 
-  <div class="hero-banner"> <div class="hero-text"> <h1>Sponsor Dignity</h1> <p>Support an elderly person directly<br>Restore dignity through human connection</p> </div> 
-    <div class="hero-buttons"> 
-      <button class="btn" onclick="showSection('sponsor')">Sponsor Now</button> 
-      <button class="btn" onclick="showSection('about')">About Us</button> 
-      <button class="btn" onclick="showSection('contact')">Email</button> 
-      <button class="btn" onclick="showSection('donate')">Donate</button> </div> </div> </div>
+<div class="hero-wrapper"> 
+  <img src="images/dignity.jpg" class="hero-img" alt="Two elderly people sitting together outdoors in a peaceful natural landscape">
+  
+  <div class="hero-banner"> 
+    <div class="hero-text"> 
+      <h1>Sponsor Dignity</h1> 
+      <p>Restore dignity through human connection</p> 
+    </div>
+    
+    <div class="hero-buttons">
+      <button class="btn btn-secondary" onclick="showSection('about')">Our Story</button>
+      <button class="btn btn-secondary" onclick="showSection('contact')">Contact</button>
+      <button class="btn btn-primary" onclick="showSection('sponsor')">Sponsor an Elder</button>
+      <button class="btn btn-primary" onclick="showSection('donate')">Donate</button> 
+    </div> 
+  </div> 
+</div>
 
-<!-- ABOUT -->
-<section id="about">
+<section id="about" class="active">
   <h2>Restoring dignity, one connection at a time</h2>
-  <p>Sponsor Dignity is a human-centered nonprofit that connects elderly people in need with compassionate donors who wish to give back by directly connecting to a vulnerable elder in a meaningful way. We offer dignity, warmth, and basic support to aging individuals who have been left behind by broken systems—through direct sponsorship, human connection, and community-powered care. We believe that every wrinkle tells a story, and every elder deserves to be seen, heard, and honored.</p>
-<h2>How we came about</h2>
-  <p>Our founder was visiting abroad one year when they saw an elderly man quietly going through the trash at night.
-He wasn’t homeless, not in the way we usually think of it. He looked like someone’s grandfather—neatly dressed, still holding onto pride, careful not to be seen. But he was seen. And something about that moment never left.
-It became clear that people like him had lived through hardship without complaint, they worked their entire lives, paid their dues, raised families -and now, in their final years, were quietly struggling, unseen, too proud to reach out.
-In a world with a rapidly ageing population and complex economic and geopolitic challenges the vulnerable can be left behind too easily. 
-On the other hand isolation and the struggle to find purpose is also growing which is how Sponsor Dignity arose, with a mission to bridge the gap, restore dignity, and create human connection. One story, one elder, one life at a time.
-</p>
+  <p>Sponsor Dignity is a human-centered nonprofit that connects elderly people in need with compassionate donors who wish to give back. We offer dignity, warmth, and basic support to aging individuals who have been left behind by broken systems—through direct sponsorship, human connection, and community-powered care.</p>
+  <p>We believe that every wrinkle tells a story, and every elder deserves to be seen, heard, and honored.</p>
+
+  <h3>How we began</h3>
+  <p>Our founder was visiting abroad when they saw an elderly man quietly going through the trash at night. He wasn’t homeless in the way we usually think of it. He looked like someone’s grandfather—neatly dressed, still holding onto pride, careful not to be seen. But he was seen. And something about that moment never left.</p>
+  
+  <blockquote>"It became clear that people like him had lived through hardship without complaint. They worked their entire lives, raised families, and now, in their final years, were quietly struggling—unseen and too proud to reach out."</blockquote>
+  
+  <p>In a world with a rapidly ageing population and complex economic challenges, the vulnerable can be left behind too easily. Isolation and the struggle to find purpose are also growing. Sponsor Dignity arose with a mission to bridge this gap. One story, one elder, one life at a time.</p>
 </section>
 
-<!-- SPONSOR -->
 <section id="sponsor">
   <h2>Become a Sponsor</h2>
-  <p>Choose your level of support and help restore dignity.</p>
+  <p>Choose your level of support and help restore dignity. Sponsoring an elder directly provides them with essential resources, warmth, and the knowledge that someone cares.</p>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
   <h2>Get in Touch</h2>
-  <p>Questions or referrals? We’d love to hear from you.</p>
+  <p>Questions or referrals? We’d love to hear from you. Reach out to our team to learn more about our programs or how you can get involved in your local community.</p>
 </section>
 
-<!-- DONATE -->
 <section id="donate">
   <h2>Make a Donation</h2>
-  <p>100% of funds go directly to people in need.</p>
+  <p>100% of public donations go directly to supporting the elders in our network. Your contribution provides immediate relief and long-term connection.</p>
 </section>
 
 <script>
 function showSection(id){
-  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
-  const el=document.getElementById(id);
+  // Remove active class from all sections
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  
+  // Add active class to target section
+  const el = document.getElementById(id);
   if(el){
     el.classList.add('active');
-    el.scrollIntoView({behavior:'smooth',block:'start'});
+    // Smooth scroll slightly offset from the top
+    const y = el.getBoundingClientRect().top + window.scrollY - 40;
+    window.scrollTo({top: y, behavior: 'smooth'});
   }
 }
 </script>
-
 </body>
 </html>
