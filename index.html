@@ -82,7 +82,10 @@ html, body {
   gap:2rem;
   flex-wrap:wrap;
   background:linear-gradient(to top, rgba(22,90,68,0.82) 0%, transparent 100%);
+  pointer-events:none; 
 }
+.hero-buttons,
+.hero-text { pointer-events:auto; }
 
 /* ── 5. Bolder, whiter title ── */
 .hero-text h1 {
@@ -106,6 +109,12 @@ html, body {
 }
 
 /* BUTTONS */
+.form-actions {
+  display:flex;
+  justify-content:flex-end;
+  margin-top:.4rem;
+}
+  
 .hero-buttons {
   display:flex;
   gap:.75rem;
@@ -486,6 +495,7 @@ One story. One elder. One human connection at a time.</p>
   </div>
 
   <!-- SPONSOR -->
+  <div class="form-actions">
   <div class="section-overlay" id="sponsor">
     <div class="section-content">
       <div id="sponsor-fields" class="section-fields">
@@ -530,7 +540,7 @@ One story. One elder. One human connection at a time.</p>
           <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           Start My Sponsorship
         </button>
-      </div>
+      </div>  </div>
       <div class="success-box" id="sponsor-success">
         <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <h3>You're making a difference!</h3>
@@ -540,6 +550,7 @@ One story. One elder. One human connection at a time.</p>
   </div>
 
   <!-- CONTACT -->
+    <div class="form-actions">
   <div class="section-overlay" id="contact">
     <div class="section-content">
       <div id="contact-fields" class="section-fields">
@@ -564,7 +575,7 @@ One story. One elder. One human connection at a time.</p>
           <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           Send Message
         </button>
-      </div>
+      </div>  </div>
       <div class="success-box" id="contact-success">
         <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <h3>Message sent!</h3>
@@ -574,6 +585,7 @@ One story. One elder. One human connection at a time.</p>
   </div>
 
   <!-- DONATE -->
+      <div class="form-actions">
   <div class="section-overlay" id="donate">
     <div class="section-content">
       <div id="donate-fields" class="section-fields">
@@ -608,7 +620,7 @@ One story. One elder. One human connection at a time.</p>
 </svg>
           Donate Now
         </button>
-      </div>
+      </div> </div>
       <div class="success-box" id="donate-success">
         <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <h3>Thank you for your generosity!</h3>
