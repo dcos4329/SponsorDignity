@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sponsor Dignity</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600&family=Playfair+Display:wght@700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin:0; padding:0; }
 
@@ -19,158 +17,580 @@
 
 body {
   font-family:'Source Sans 3',sans-serif;
-  background:#ffffff;
+  background:#f4f7f5;
   color:var(--text);
 }
 
-/* HERO CARD (Carrd style) */
+/* HERO CARD */
 .hero-wrapper {
   max-width:1100px;
   margin:3rem auto 2rem;
   border-radius:20px;
   overflow:hidden;
-  box-shadow:0 20px 50px rgba(0,0,0,.12);
+  box-shadow:0 20px 60px rgba(0,0,0,.15);
+  position:relative;
 }
 
-/* IMAGE */
 .hero-img {
   width:100%;
-  height:380px;
+  height:72vh;
+  min-height:480px;
   object-fit:cover;
   object-position:center 35%;
   display:block;
 }
 
+/* OVERLAY — darkens when a section is open */
+.hero-overlay {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.18) 50%, rgba(0,0,0,0.60) 100%);
+  transition:background 0.4s ease;
+  pointer-events:none;
+  z-index:1;
+}
+
+.hero-wrapper.section-open .hero-overlay {
+  background:linear-gradient(to bottom, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.52) 40%, rgba(0,0,0,0.84) 100%);
+}
+
 /* BANNER */
 .hero-banner {
-  background:var(--teal);
-  padding:2rem 2.5rem;
+  position:absolute;
+  bottom:0; left:0; right:0;
+  z-index:3;
+  padding:1.8rem 2.8rem 2.2rem;
   display:flex;
   justify-content:space-between;
-  align-items:center;
+  align-items:flex-end;
   gap:2rem;
   flex-wrap:wrap;
+  background:linear-gradient(to top, rgba(30,122,98,0.78) 0%, transparent 100%);
 }
 
 .hero-text h1 {
-  font-family:'Playfair Display',serif;
-  font-size:2.8rem;
+  font-family:'Zilla Slab',serif;
+  font-weight:600;
+  font-size:clamp(2.4rem, 5vw, 3.6rem);
   color:white;
-  line-height:1.1;
+  line-height:1.05;
+  letter-spacing:-0.01em;
+  text-shadow:0 2px 14px rgba(0,0,0,0.28);
 }
 
 .hero-text p {
-  margin-top:.6rem;
-  font-size:.75rem;
-  letter-spacing:.15em;
+  margin-top:.55rem;
+  font-size:.72rem;
+  letter-spacing:.16em;
   text-transform:uppercase;
   color:rgba(255,255,255,.85);
+  font-weight:300;
 }
 
 /* BUTTONS */
 .hero-buttons {
   display:flex;
-  gap:.8rem;
+  gap:.75rem;
   flex-wrap:wrap;
+  justify-content:flex-end;
 }
 
 .btn {
-  border:none;
-  padding:.65rem 1.2rem;
-  background:rgba(255,255,255,.18);
+  border:1.5px solid rgba(255,255,255,0.5);
+  padding:.6rem 1.15rem;
+  background:rgba(255,255,255,0.14);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
   border-radius:999px;
   color:white;
   font-weight:600;
-  font-size:.9rem;
+  font-size:.88rem;
   cursor:pointer;
   display:flex;
   align-items:center;
-  gap:.4rem;
-  transition:background .2s, transform .15s;
+  gap:.45rem;
+  transition:background .2s, border-color .2s, transform .15s;
+  white-space:nowrap;
 }
 
 .btn:hover {
-  background:rgba(255,255,255,.3);
+  background:rgba(255,255,255,0.26);
+  border-color:rgba(255,255,255,0.9);
   transform:translateY(-1px);
 }
 
-.btn svg { width:16px; height:16px; }
+.btn.active-btn {
+  background:rgba(255,255,255,0.28);
+  border-color:white;
+}
 
-/* SECTIONS */
-section {
-  max-width:850px;
-  margin:3rem auto;
-  padding:0 1.5rem;
+.btn svg {
+  width:15px; height:15px;
+  stroke:white; fill:none;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  flex-shrink:0;
+}
+
+/* CLOSE BUTTON */
+.close-btn {
+  position:absolute;
+  top:1.2rem; right:1.5rem;
+  z-index:10;
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.45);
+  border-radius:999px;
+  color:white;
+  font-size:.78rem;
+  font-weight:600;
+  padding:.38rem .95rem;
+  cursor:pointer;
+  backdrop-filter:blur(4px);
+  transition:background .2s;
   display:none;
+  letter-spacing:.06em;
 }
 
-section.active { display:block; }
+.close-btn:hover { background:rgba(255,255,255,0.26); }
+.close-btn.visible { display:block; }
 
-h2 {
+/* SECTION OVERLAYS */
+.section-overlay {
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:none;
+  align-items:flex-start;
+  justify-content:center;
+  padding:3.5rem 3rem 9rem;
+  overflow-y:auto;
+}
+
+.section-overlay.active { display:flex; }
+
+.section-content {
+  max-width:680px;
+  width:100%;
+  color:white;
+  animation:fadeUp 0.38s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.section-tag {
+  font-size:.7rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.65);
+  font-weight:600;
+  margin-bottom:.9rem;
+}
+
+.section-content h2 {
   font-family:'Playfair Display',serif;
-  font-size:2.2rem;
-  margin-bottom:1.2rem;
+  font-size:clamp(1.7rem, 3.5vw, 2.5rem);
+  color:white;
+  line-height:1.2;
+  margin-bottom:1rem;
+  text-shadow:0 2px 10px rgba(0,0,0,0.3);
 }
 
-p { line-height:1.8; margin-bottom:1.2rem; }
+.section-content h3 {
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem;
+  color:white;
+  margin:1.5rem 0 .5rem;
+}
 
-@media(max-width:700px){
-  .hero-banner{padding:1.6rem}
-  .hero-text h1{font-size:2.2rem}
-  .hero-img{height:260px}
+.section-content p {
+  font-size:.98rem;
+  line-height:1.82;
+  color:rgba(255,255,255,0.86);
+  margin-bottom:1rem;
+}
+
+/* TIER CARDS */
+.tier-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:.9rem;
+  margin:1.4rem 0;
+}
+
+.tier-card {
+  border:1.5px solid rgba(255,255,255,0.28);
+  border-radius:12px;
+  padding:1.1rem 1rem;
+  text-align:center;
+  cursor:pointer;
+  background:rgba(255,255,255,0.08);
+  transition:background .2s, border-color .2s;
+}
+
+.tier-card:hover, .tier-card.selected {
+  background:rgba(255,255,255,0.2);
+  border-color:rgba(255,255,255,0.9);
+}
+
+.tier-card .amount {
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;
+  color:white;
+  display:block;
+}
+
+.tier-card .tier-name {
+  font-size:.75rem;
+  color:rgba(255,255,255,0.7);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin:.25rem 0;
+  display:block;
+}
+
+.tier-card .tier-desc {
+  font-size:.78rem;
+  color:rgba(255,255,255,0.6);
+  line-height:1.5;
+  margin-top:.5rem;
+}
+
+.tier-card .tier-freq {
+  font-size:.68rem;
+  color:rgba(255,255,255,.5);
+  margin-top:.45rem;
+  display:block;
+}
+
+/* FORMS */
+.form-group { margin-bottom:1rem; }
+
+.form-group label {
+  display:block;
+  font-size:.73rem;
+  font-weight:600;
+  color:rgba(255,255,255,0.7);
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  margin-bottom:.35rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width:100%;
+  padding:.62rem 1rem;
+  border:1.5px solid rgba(255,255,255,0.28);
+  border-radius:8px;
+  background:rgba(255,255,255,0.11);
+  color:white;
+  font-family:'Source Sans 3',sans-serif;
+  font-size:.95rem;
+  outline:none;
+  transition:border-color .2s, background .2s;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder { color:rgba(255,255,255,0.38); }
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color:rgba(255,255,255,0.8);
+  background:rgba(255,255,255,0.17);
+}
+
+.form-group textarea { min-height:95px; resize:vertical; }
+
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:.9rem; }
+
+.submit-btn {
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.72rem 1.8rem;
+  background:white;
+  color:var(--teal-dark);
+  border:none;
+  border-radius:999px;
+  font-family:'Source Sans 3',sans-serif;
+  font-size:.95rem;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:.4rem;
+  transition:background .2s, transform .15s;
+}
+
+.submit-btn:hover { background:rgba(255,255,255,0.88); transform:translateY(-1px); }
+
+.submit-btn svg {
+  width:14px; height:14px;
+  stroke:var(--teal-dark); fill:none;
+  stroke-width:2.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+/* DONATE PILLS */
+.amount-pills { display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:1.2rem; }
+
+.pill {
+  padding:.48rem 1.2rem;
+  border:1.5px solid rgba(255,255,255,0.32);
+  border-radius:999px;
+  color:white;
+  background:rgba(255,255,255,0.09);
+  font-weight:600;
+  font-size:.88rem;
+  cursor:pointer;
+  transition:background .2s, border-color .2s;
+}
+
+.pill:hover, .pill.selected {
+  background:rgba(255,255,255,0.26);
+  border-color:white;
+}
+
+/* SUCCESS */
+.success-box {
+  display:none;
+  margin-top:1.2rem;
+  padding:1.1rem 1.4rem;
+  background:rgba(255,255,255,0.13);
+  border:1.5px solid rgba(255,255,255,0.45);
+  border-radius:12px;
+  text-align:center;
+}
+
+.success-box.show { display:block; }
+.success-box h3 { font-family:'Playfair Display',serif; font-size:1.15rem; color:white; margin-bottom:.35rem; }
+.success-box p { font-size:.88rem; color:rgba(255,255,255,0.78); margin:0; }
+
+@media(max-width:720px){
+  .hero-banner { flex-direction:column; align-items:flex-start; padding:1.4rem 1.6rem 1.8rem; }
+  .hero-buttons { width:100%; }
+  .btn { flex:1; justify-content:center; min-width:0; }
+  .tier-grid { grid-template-columns:1fr; }
+  .form-row { grid-template-columns:1fr; }
+  .section-overlay { padding:2.5rem 1.4rem 8rem; }
+  .hero-img { height:85vw; min-height:320px; }
 }
 </style>
 </head>
-
 <body>
 
-<!-- HERO --> <div class="hero-wrapper"> <img src="images/dignity.jpg" class="hero-img" alt="Two elderly people sitting together outdoors in a peaceful garden" > 
-  <div class="hero-banner"> <div class="hero-text"> <h1>Sponsor Dignity</h1> <p>Support an elderly person directly<br>Restore dignity through human connection</p> </div> 
-    <div class="hero-buttons"> 
-      <button class="btn" onclick="showSection('sponsor')">Sponsor Now</button> 
-      <button class="btn" onclick="showSection('about')">About Us</button> 
-      <button class="btn" onclick="showSection('contact')">Email</button> 
-      <button class="btn" onclick="showSection('donate')">Donate</button> </div> </div> </div>
+<div class="hero-wrapper" id="heroWrapper">
 
-<!-- ABOUT -->
-<section id="about">
-  <h2>Restoring dignity, one connection at a time</h2>
-  <p>Sponsor Dignity is a human-centered nonprofit that connects elderly people in need with compassionate donors who wish to give back by directly connecting to a vulnerable elder in a meaningful way. We offer dignity, warmth, and basic support to aging individuals who have been left behind by broken systems—through direct sponsorship, human connection, and community-powered care. We believe that every wrinkle tells a story, and every elder deserves to be seen, heard, and honored.</p>
-<h2>How we came about</h2>
-  <p>Our founder was visiting abroad one year when they saw an elderly man quietly going through the trash at night.
-He wasn’t homeless, not in the way we usually think of it. He looked like someone’s grandfather—neatly dressed, still holding onto pride, careful not to be seen. But he was seen. And something about that moment never left.
-It became clear that people like him had lived through hardship without complaint, they worked their entire lives, paid their dues, raised families -and now, in their final years, were quietly struggling, unseen, too proud to reach out.
-In a world with a rapidly ageing population and complex economic and geopolitic challenges the vulnerable can be left behind too easily. 
-On the other hand isolation and the struggle to find purpose is also growing which is how Sponsor Dignity arose, with a mission to bridge the gap, restore dignity, and create human connection. One story, one elder, one life at a time.
-</p>
-</section>
+  <img src="images/dignity.jpg" class="hero-img" alt="Two elderly people sitting together outdoors in a peaceful garden">
 
-<!-- SPONSOR -->
-<section id="sponsor">
-  <h2>Become a Sponsor</h2>
-  <p>Choose your level of support and help restore dignity.</p>
-</section>
+  <div class="hero-overlay"></div>
 
-<!-- CONTACT -->
-<section id="contact">
-  <h2>Get in Touch</h2>
-  <p>Questions or referrals? We’d love to hear from you.</p>
-</section>
+  <button class="close-btn" id="closeBtn" onclick="closeSection()">✕ Close</button>
 
-<!-- DONATE -->
-<section id="donate">
-  <h2>Make a Donation</h2>
-  <p>100% of funds go directly to people in need.</p>
-</section>
+  <!-- ABOUT -->
+  <div class="section-overlay" id="about">
+    <div class="section-content">
+      <div class="section-tag">Who we are</div>
+      <h2>Restoring dignity, one connection at a time</h2>
+      <p>Sponsor Dignity is a human-centered nonprofit that connects elderly people in need with compassionate donors who wish to give back by directly connecting to a vulnerable elder in a meaningful way. We offer dignity, warmth, and basic support to aging individuals who have been left behind by broken systems — through direct sponsorship, human connection, and community-powered care. We believe that every wrinkle tells a story, and every elder deserves to be seen, heard, and honored.</p>
+      <h3>How we came about</h3>
+      <p>Our founder was visiting abroad one year when they saw an elderly man quietly going through the trash at night. He wasn't homeless, not in the way we usually think of it. He looked like someone's grandfather — neatly dressed, still holding onto pride, careful not to be seen. But he was seen. And something about that moment never left.</p>
+      <p>It became clear that people like him had lived through hardship without complaint, worked their entire lives, raised families — and now, in their final years, were quietly struggling, unseen, too proud to reach out. In a world with a rapidly ageing population and complex challenges, the vulnerable can be left behind too easily. Sponsor Dignity arose with a mission to bridge that gap, restore dignity, and create human connection. One story, one elder, one life at a time.</p>
+    </div>
+  </div>
+
+  <!-- SPONSOR -->
+  <div class="section-overlay" id="sponsor">
+    <div class="section-content">
+      <div class="section-tag">Become a sponsor</div>
+      <h2>Choose your level of support</h2>
+      <p>Select a tier and fill in your details. We'll match you with an elderly person and introduce you within 5 days.</p>
+      <div class="tier-grid">
+        <div class="tier-card selected" onclick="selectTier(this)">
+          <span class="amount">$15</span>
+          <span class="tier-name">Companion</span>
+          <div class="tier-desc">Weekly calls &amp; a monthly care package</div>
+          <span class="tier-freq">/ month</span>
+        </div>
+        <div class="tier-card" onclick="selectTier(this)">
+          <span class="amount">$30</span>
+          <span class="tier-name">Guardian</span>
+          <div class="tier-desc">Meals, medication &amp; regular check-ins</div>
+          <span class="tier-freq">/ month</span>
+        </div>
+        <div class="tier-card" onclick="selectTier(this)">
+          <span class="amount">$60</span>
+          <span class="tier-name">Champion</span>
+          <div class="tier-desc">Full support: housing, medical &amp; daily care</div>
+          <span class="tier-freq">/ month</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full name</label>
+          <input type="text" id="s-name" placeholder="Jane Smith">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="s-email" placeholder="jane@example.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Any preferences? (optional)</label>
+        <textarea id="s-notes" placeholder="e.g. I'd love to be matched with someone who enjoys gardening..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitForm('s-name','s-email','sponsor-success')">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Start My Sponsorship
+      </button>
+      <div class="success-box" id="sponsor-success">
+        <h3>You're making a difference!</h3>
+        <p>Thank you for signing up. We'll be in touch within 5 days to introduce you to your match.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="section-overlay" id="contact">
+    <div class="section-content">
+      <div class="section-tag">Get in touch</div>
+      <h2>We'd love to hear from you</h2>
+      <p>Questions about sponsorship, referring an elderly person, or interested in volunteering? Drop us a message below.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your name</label>
+          <input type="text" id="c-name" placeholder="Jane Smith">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="c-email" placeholder="jane@example.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea id="c-msg" placeholder="What's on your mind?"></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitForm('c-name','c-email','contact-success')">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Send Message
+      </button>
+      <div class="success-box" id="contact-success">
+        <h3>Message sent!</h3>
+        <p>Thank you for reaching out. We'll reply within 48 hours.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DONATE -->
+  <div class="section-overlay" id="donate">
+    <div class="section-content">
+      <div class="section-tag">Make a donation</div>
+      <h2>Every dollar goes directly to a person in need</h2>
+      <p>100% of funds go to meals, medication, and companionship for elderly individuals who have been forgotten. No admin fees.</p>
+      <div class="amount-pills">
+        <button class="pill selected" onclick="selectPill(this)">$10</button>
+        <button class="pill" onclick="selectPill(this)">$25</button>
+        <button class="pill" onclick="selectPill(this)">$50</button>
+        <button class="pill" onclick="selectPill(this)">$100</button>
+      </div>
+      <div class="form-group" style="max-width:210px; margin-bottom:1.2rem;">
+        <label>Or enter amount</label>
+        <input type="text" id="custom-amt" placeholder="$ Other amount" oninput="clearPills()">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your name</label>
+          <input type="text" id="d-name" placeholder="Jane Smith">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="d-email" placeholder="jane@example.com">
+        </div>
+      </div>
+      <button class="submit-btn" onclick="submitForm('d-name','d-email','donate-success')">
+        <svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M15 9.354a4 4 0 1 0 0 5.292"/></svg>
+        Donate Now
+      </button>
+      <div class="success-box" id="donate-success">
+        <h3>Thank you for your generosity!</h3>
+        <p>Your donation will make a real and immediate difference. A receipt will be sent to your email.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANNER — always on top -->
+  <div class="hero-banner">
+    <div class="hero-text">
+      <h1>Sponsor Dignity</h1>
+      <p>Support an elderly person directly<br>Restore dignity through human connection</p>
+    </div>
+    <div class="hero-buttons">
+      <button class="btn" id="btn-sponsor" onclick="showSection('sponsor')">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Sponsor Someone
+      </button>
+      <button class="btn" id="btn-about" onclick="showSection('about')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        About Us
+      </button>
+      <button class="btn" id="btn-contact" onclick="showSection('contact')">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email
+      </button>
+      <button class="btn" id="btn-donate" onclick="showSection('donate')">
+        <svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M15 9.354a4 4 0 1 0 0 5.292"/></svg>
+        Donate
+      </button>
+    </div>
+  </div>
+
+</div>
 
 <script>
-function showSection(id){
-  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
-  const el=document.getElementById(id);
-  if(el){
+function showSection(id) {
+  document.querySelectorAll('.section-overlay').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.btn').forEach(function(b){ b.classList.remove('active-btn'); });
+  var el = document.getElementById(id);
+  if (el) {
     el.classList.add('active');
-    el.scrollIntoView({behavior:'smooth',block:'start'});
+    document.getElementById('heroWrapper').classList.add('section-open');
+    document.getElementById('closeBtn').classList.add('visible');
+    var btn = document.getElementById('btn-' + id);
+    if (btn) btn.classList.add('active-btn');
   }
+}
+
+function closeSection() {
+  document.querySelectorAll('.section-overlay').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.btn').forEach(function(b){ b.classList.remove('active-btn'); });
+  document.getElementById('heroWrapper').classList.remove('section-open');
+  document.getElementById('closeBtn').classList.remove('visible');
+}
+
+function selectTier(card) {
+  document.querySelectorAll('.tier-card').forEach(function(c){ c.classList.remove('selected'); });
+  card.classList.add('selected');
+}
+
+function selectPill(pill) {
+  document.querySelectorAll('.pill').forEach(function(p){ p.classList.remove('selected'); });
+  pill.classList.add('selected');
+  document.getElementById('custom-amt').value = '';
+}
+
+function clearPills() {
+  document.querySelectorAll('.pill').forEach(function(p){ p.classList.remove('selected'); });
+}
+
+function submitForm(nameId, emailId, successId) {
+  var name = document.getElementById(nameId).value.trim();
+  var email = document.getElementById(emailId).value.trim();
+  if (!name || !email) { alert('Please fill in your name and email.'); return; }
+  var box = document.getElementById(successId);
+  box.classList.add('show');
+  box.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 </script>
 
