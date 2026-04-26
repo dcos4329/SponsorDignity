@@ -11,6 +11,7 @@
 :root {
   --teal:#2a9d7f;
   --teal-dark:#1e7a62;
+  --teal-banner:rgba(22,90,68,0.95);
   --white:#fff;
   --text:#1a2e28;
 }
@@ -22,6 +23,7 @@ html, body {
   color:var(--text);
 }
 
+/* ── SHELL ── */
 .hero-shell {
   max-width:1200px;
   margin:3rem auto 2.5rem;
@@ -31,23 +33,40 @@ html, body {
   background:#000;
 }
 
+/* ── HERO WRAPPER — desktop: fixed height, mobile: auto ── */
 .hero-wrapper {
   width:100%;
-  height:85vh;    
-  min-height:720px; 
-  max-height:980px;  
   position:relative;
-  overflow:hidden;
+}
+
+/* DESKTOP hero is tall with absolute banner */
+@media(min-width:721px){
+  .hero-wrapper {
+    height:85vh;
+    min-height:720px;
+    max-height:980px;
+    overflow:hidden;
+  }
 }
 
 .hero-img {
   width:100%;
-  height:100%;
+  display:block;
   object-fit:cover;
   object-position:center 35%;
-  display:block;
 }
 
+/* Desktop: image fills entire wrapper */
+@media(min-width:721px){
+  .hero-img { height:100%; position:absolute; inset:0; }
+}
+
+/* Mobile: image is fixed height on top */
+@media(max-width:720px){
+  .hero-img { height:56vw; min-height:220px; max-height:320px; position:relative; }
+}
+
+/* ── OVERLAY — desktop only ── */
 .hero-overlay {
   position:absolute;
   inset:0;
@@ -69,49 +88,78 @@ html, body {
   );
 }
 
-.hero-banner {
-  position:absolute;
-  bottom:0; left:0; right:0;
-  z-index:3;
-  padding:2rem 3.5rem 2.5rem;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:2rem;
-  flex-wrap:wrap;
-  background:linear-gradient(to top, rgba(22,90,68,0.82) 0%, transparent 100%);
-  pointer-events:none;
+@media(max-width:720px){
+  .hero-overlay { display:none; }
 }
 
-.hero-buttons,
-.hero-text { pointer-events:auto; }
+/* ── BANNER ── */
 
+/* Desktop: absolute over image */
+@media(min-width:721px){
+  .hero-banner {
+    position:absolute;
+    bottom:0; left:0; right:0;
+    z-index:3;
+    padding:2rem 3.5rem 2.5rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:2rem;
+    flex-wrap:wrap;
+    background:linear-gradient(to top, rgba(22,90,68,0.88) 0%, transparent 100%);
+    pointer-events:none;
+  }
+  .hero-buttons, .hero-text { pointer-events:auto; }
+}
+
+/* Mobile: solid teal block below image */
+@media(max-width:720px){
+  .hero-banner {
+    position:relative;
+    z-index:3;
+    background:var(--teal-banner);
+    padding:1.8rem 1.5rem 2rem;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:1.2rem;
+  }
+}
+
+/* ── TITLE ── */
 .hero-text h1 {
   font-family:'Zilla Slab',serif;
   font-weight:600;
-  font-size:clamp(2.8rem, 5.5vw, 4.2rem);
   color:#ffffff;
   line-height:1.05;
   letter-spacing:-0.01em;
   text-shadow:0 2px 16px rgba(0,0,0,0.5), 0 0 40px rgba(0,0,0,0.3);
 }
 
+@media(min-width:721px){ .hero-text h1 { font-size:clamp(2.8rem, 5.5vw, 4.2rem); } }
+@media(max-width:720px){ .hero-text h1 { font-size:2.6rem; } }
+
 .hero-text p {
   margin-top:.6rem;
   font-size:.74rem;
-  letter-spacing:.17em;
+  letter-spacing:.15em;
   text-transform:uppercase;
-  color:rgba(255,255,255,0.95);
+  color:rgba(255,255,255,0.92);
   font-weight:400;
-  text-shadow:0 1px 8px rgba(0,0,0,0.5);
+  text-shadow:0 1px 8px rgba(0,0,0,0.4);
+  line-height:1.7;
 }
 
+/* ── NAV BUTTONS ── */
 .hero-buttons {
   display:flex;
   gap:.75rem;
   flex-wrap:wrap;
-  justify-content:flex-end;
 }
+
+@media(min-width:721px){ .hero-buttons { justify-content:flex-end; } }
+@media(max-width:720px){ .hero-buttons { flex-direction:column; width:100%; gap:.6rem; } }
 
 .btn {
   border:1.5px solid rgba(255,255,255,0.55);
@@ -129,6 +177,16 @@ html, body {
   gap:.45rem;
   transition:background .2s, border-color .2s, transform .15s;
   white-space:nowrap;
+}
+
+@media(max-width:720px){
+  .btn {
+    justify-content:center;
+    width:100%;
+    padding:.75rem 1.2rem;
+    font-size:.95rem;
+    background:rgba(255,255,255,0.18);
+  }
 }
 
 .btn:hover {
@@ -151,6 +209,7 @@ html, body {
   flex-shrink:0;
 }
 
+/* ── CLOSE BUTTON ── */
 .close-btn {
   position:absolute;
   top:1.4rem; right:1.8rem;
@@ -173,23 +232,40 @@ html, body {
 .close-btn:hover { background:rgba(255,255,255,0.28); }
 .close-btn.visible { display:block; }
 
-.section-overlay {
-  position:absolute;
-  inset:0;
-  z-index:2;
-  display:none;
-  align-items:flex-start;
-  justify-content:center;
-  padding:3.2rem 3.5rem 9rem;
-  overflow-y:auto;
-  scrollbar-color: rgba(255,255,255,0.4) rgba(255,255,255,0.12);
-  scrollbar-width:thin;
+/* ── SECTION OVERLAYS ── */
+
+/* Desktop: absolute over image */
+@media(min-width:721px){
+  .section-overlay {
+    position:absolute;
+    inset:0;
+    z-index:2;
+    display:none;
+    align-items:flex-start;
+    justify-content:center;
+    padding:3.2rem 3.5rem 9rem;
+    overflow-y:auto;
+    scrollbar-color: rgba(255,255,255,0.4) rgba(255,255,255,0.12);
+    scrollbar-width:thin;
+  }
+  .section-overlay::-webkit-scrollbar { width:6px; }
+  .section-overlay::-webkit-scrollbar-track { background:rgba(255,255,255,0.12); border-radius:3px; }
+  .section-overlay::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.4); border-radius:3px; }
+  .section-overlay.active { display:flex; }
 }
 
-.section-overlay::-webkit-scrollbar { width:6px; }
-.section-overlay::-webkit-scrollbar-track { background:rgba(255,255,255,0.12); border-radius:3px; }
-.section-overlay::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.4); border-radius:3px; }
-.section-overlay.active { display:flex; }
+/* Mobile: block below banner, teal background, normal scroll */
+@media(max-width:720px){
+  .section-overlay {
+    display:none;
+    position:relative;
+    z-index:2;
+    background:var(--teal-banner);
+    padding:1.8rem 1.5rem 2.5rem;
+    overflow-y:visible;
+  }
+  .section-overlay.active { display:block; }
+}
 
 .section-content {
   max-width:700px;
@@ -214,29 +290,30 @@ html, body {
 
 .section-content h2 {
   font-family:'Playfair Display',serif;
-  font-size:clamp(1.8rem, 3.5vw, 2.6rem);
+  font-size:clamp(1.6rem, 3.5vw, 2.6rem);
   color:#ffffff;
   line-height:1.2;
   margin-bottom:1rem;
-  text-shadow:0 2px 12px rgba(0,0,0,0.5);
+  text-shadow:0 2px 12px rgba(0,0,0,0.4);
 }
 
 .section-content h3 {
   font-family:'Playfair Display',serif;
-  font-size:1.25rem;
+  font-size:1.15rem;
   color:#ffffff;
-  margin:1.5rem 0 .5rem;
-  text-shadow:0 1px 8px rgba(0,0,0,0.4);
+  margin:1.4rem 0 .5rem;
+  text-shadow:0 1px 8px rgba(0,0,0,0.3);
 }
 
 .section-content p {
-  font-size:1rem;
+  font-size:.97rem;
   line-height:1.82;
-  color:rgba(255,255,255,0.95);
+  color:rgba(255,255,255,0.93);
   margin-bottom:1rem;
-  text-shadow:0 1px 6px rgba(0,0,0,0.4);
+  text-shadow:0 1px 4px rgba(0,0,0,0.3);
 }
 
+/* ── TIER CARDS ── */
 .tier-grid {
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -244,22 +321,21 @@ html, body {
   margin:1.4rem 0;
 }
 
+@media(max-width:720px){ .tier-grid { grid-template-columns:1fr; gap:.7rem; } }
+
 .tier-card {
   border:1.5px solid rgba(255,255,255,0.3);
   border-radius:12px;
   padding:1.1rem 1rem;
   text-align:center;
   cursor:pointer;
-  background:rgba(0,0,0,0.28);
+  background:rgba(0,0,0,0.22);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
   transition:background .2s, border-color .2s, box-shadow .2s;
 }
 
-.tier-card:hover {
-  background:rgba(0,0,0,0.38);
-  border-color:rgba(255,255,255,0.7);
-}
+.tier-card:hover { background:rgba(0,0,0,0.32); border-color:rgba(255,255,255,0.7); }
 
 .tier-card.selected {
   background:rgba(255,255,255,0.18);
@@ -298,6 +374,7 @@ html, body {
   display:block;
 }
 
+/* ── FORMS ── */
 .form-group { margin-bottom:1rem; }
 
 .form-group label {
@@ -316,7 +393,7 @@ html, body {
   padding:.65rem 1rem;
   border:1.5px solid rgba(255,255,255,0.3);
   border-radius:8px;
-  background:rgba(0,0,0,0.28);
+  background:rgba(0,0,0,0.22);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
   color:white;
@@ -332,18 +409,21 @@ html, body {
 .form-group input:focus,
 .form-group textarea:focus {
   border-color:rgba(255,255,255,0.8);
-  background:rgba(0,0,0,0.38);
+  background:rgba(0,0,0,0.32);
 }
 
 .form-group textarea { min-height:95px; resize:vertical; }
-.form-row { display:grid; grid-template-columns:1fr 1fr; gap:.9rem; }
 
-/* Right-aligned submit button wrapper */
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:.9rem; }
+@media(max-width:720px){ .form-row { grid-template-columns:1fr; } }
+
 .form-actions {
   display:flex;
   justify-content:flex-end;
   margin-top:.5rem;
 }
+
+@media(max-width:720px){ .form-actions { justify-content:center; } }
 
 .submit-btn {
   display:inline-flex;
@@ -361,6 +441,10 @@ html, body {
   transition:background .2s, transform .15s;
 }
 
+@media(max-width:720px){
+  .submit-btn { width:100%; justify-content:center; padding:.85rem 1.9rem; }
+}
+
 .submit-btn:hover { background:rgba(255,255,255,0.88); transform:translateY(-1px); }
 
 .submit-btn svg {
@@ -371,6 +455,7 @@ html, body {
   stroke-linejoin:round;
 }
 
+/* ── DONATE PILLS ── */
 .amount-pills { display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:1.2rem; }
 
 .pill {
@@ -378,7 +463,7 @@ html, body {
   border:1.5px solid rgba(255,255,255,0.35);
   border-radius:999px;
   color:white;
-  background:rgba(0,0,0,0.28);
+  background:rgba(0,0,0,0.22);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
   font-weight:600;
@@ -387,10 +472,7 @@ html, body {
   transition:background .2s, border-color .2s, box-shadow .2s;
 }
 
-.pill:hover {
-  background:rgba(0,0,0,0.38);
-  border-color:rgba(255,255,255,0.75);
-}
+.pill:hover { background:rgba(0,0,0,0.32); border-color:rgba(255,255,255,0.75); }
 
 .pill.selected {
   background:rgba(255,255,255,0.18);
@@ -398,6 +480,7 @@ html, body {
   box-shadow:0 0 0 3px rgba(255,255,255,0.2);
 }
 
+/* ── SUCCESS BOX ── */
 .section-fields.hidden { display:none; }
 
 .success-box {
@@ -444,13 +527,10 @@ html, body {
   margin:0 auto;
 }
 
+/* Mobile shell tweaks */
 @media(max-width:720px){
-  .hero-banner { flex-direction:column; align-items:flex-start; padding:1.4rem 1.6rem 1.8rem; }
-  .hero-buttons { width:100%; }
-  .btn { flex:1; justify-content:center; min-width:0; }
-  .tier-grid { grid-template-columns:1fr; }
-  .form-row { grid-template-columns:1fr; }
-  .section-overlay { padding:2.5rem 1.4rem 8rem; }
+  .hero-shell { margin:0; border-radius:0; box-shadow:none; }
+  html, body { background:#1e7a62; }
 }
 </style>
 </head>
@@ -476,7 +556,6 @@ html, body {
   <!-- SPONSOR -->
   <div class="section-overlay" id="sponsor">
     <div class="section-content">
-
       <div id="sponsor-fields" class="section-fields">
         <div class="section-tag">Become a sponsor</div>
         <h2>Choose your level of support</h2>
@@ -518,20 +597,17 @@ html, body {
           </button>
         </div>
       </div>
-
       <div class="success-box" id="sponsor-success">
         <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <h3>You're making a difference!</h3>
         <p>Thank you for signing up. We'll be in touch within 5 days to introduce you to your match.</p>
       </div>
-
     </div>
   </div>
 
   <!-- CONTACT -->
   <div class="section-overlay" id="contact">
     <div class="section-content">
-
       <div id="contact-fields" class="section-fields">
         <div class="section-tag">Get in touch</div>
         <h2>We'd love to hear from you</h2>
@@ -557,27 +633,24 @@ html, body {
           </button>
         </div>
       </div>
-
       <div class="success-box" id="contact-success">
         <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <h3>Message sent!</h3>
         <p>Thank you for reaching out. We'll reply to you within 48 hours.</p>
       </div>
-
     </div>
   </div>
 
   <!-- DONATE -->
   <div class="section-overlay" id="donate">
     <div class="section-content">
-
       <div id="donate-fields" class="section-fields">
         <div class="section-tag">Make a donation</div>
         <h2>Every dollar goes directly to a person in need</h2>
         <p>100% of funds go to meals, medication, and bills for elderly individuals who have been forgotten. No admin fees, we are powered by volunteers.</p>
         <div class="form-group" style="max-width:210px; margin-bottom:1.2rem;">
           <label>Enter amount</label>
-          <input type="text" id="custom-amt" placeholder="$ Other amount" oninput="clearPills()">
+          <input type="text" id="custom-amt" placeholder="$ Amount">
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -596,17 +669,15 @@ html, body {
           </button>
         </div>
       </div>
-
       <div class="success-box" id="donate-success">
         <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <h3>Thank you for your generosity!</h3>
         <p>Your donation will make a real and immediate difference. A receipt will be sent to your email.</p>
       </div>
-
     </div>
   </div>
 
-  <!-- BANNER — always on top -->
+  <!-- BANNER — always on top (desktop) / below image (mobile via DOM order) -->
   <div class="hero-banner">
     <div class="hero-text">
       <h1>Sponsor Dignity</h1>
@@ -636,16 +707,27 @@ html, body {
 </div>
 
 <script>
+var isMobile = window.innerWidth <= 720;
+
 function showSection(id) {
   document.querySelectorAll('.section-overlay').forEach(function(s){ s.classList.remove('active'); });
   document.querySelectorAll('.btn').forEach(function(b){ b.classList.remove('active-btn'); });
   document.querySelectorAll('.section-fields').forEach(function(f){ f.classList.remove('hidden'); });
   document.querySelectorAll('.success-box').forEach(function(b){ b.classList.remove('show'); });
+
   var el = document.getElementById(id);
   if (el) {
     el.classList.add('active');
-    document.getElementById('heroWrapper').classList.add('section-open');
-    document.getElementById('closeBtn').classList.add('visible');
+
+    // Desktop: darken overlay, show close button
+    if (window.innerWidth > 720) {
+      document.getElementById('heroWrapper').classList.add('section-open');
+      document.getElementById('closeBtn').classList.add('visible');
+    } else {
+      // Mobile: scroll the newly revealed section into view
+      setTimeout(function(){ el.scrollIntoView({ behavior:'smooth', block:'start' }); }, 50);
+    }
+
     var btn = document.getElementById('btn-' + id);
     if (btn) btn.classList.add('active-btn');
   }
@@ -686,73 +768,50 @@ function submitForm(nameId, emailId, fieldsId, successId) {
   document.getElementById(successId).classList.add('show');
 }
 </script>
-<!-- EmailJS (safe, side‑effect free) -->
+
+<!-- EmailJS -->
 <script src="https://cdn.emailjs.com/sdk/3.11.0/email.min.js"></script>
-
 <script>
-  /* Initialize EmailJS */
-  emailjs.init("9GIvnoUR9C4HzZ8b1"); // your Public Key
+  emailjs.init("9GIvnoUR9C4HzZ8b1");
 
-  /*
-    Safe background email sender.
-    Does NOT affect UI or existing submit logic.
-  */
   function sendEmailSafely(formType, nameId, emailId, messageId) {
     try {
-      const name = document.getElementById(nameId)?.value || '';
-      const email = document.getElementById(emailId)?.value || '';
-      const message = document.getElementById(messageId)?.value || '';
-
+      var name = document.getElementById(nameId)?.value || '';
+      var email = document.getElementById(emailId)?.value || '';
+      var message = document.getElementById(messageId)?.value || '';
       if (!name || !email) return;
-
-      emailjs.send(
-        "service_lycq29q",      // your Gmail Service ID
-        "template_vjkkbb9",     // your Contact Us template
-        {
-          form_type: formType,
-          from_name: name,
-          from_email: email,
-          message: message
-        }
-      ).catch(err => console.error("EmailJS error:", err));
-    } catch (e) {
+      emailjs.send("service_1ycg29q", "template_vjkkbb9", {
+        form_type: formType,
+        from_name: name,
+        from_email: email,
+        message: message
+      }).catch(function(err){ console.error("EmailJS error:", err); });
+    } catch(e) {
       console.error("EmailJS exception:", e);
     }
   }
 </script>
+
 <script>
-/* =========================
-   Simple bot protection
-   ========================= */
+  var pageLoadedAt = Date.now();
+  document.addEventListener('DOMContentLoaded', function() {
+    var honeypot = document.createElement('input');
+    honeypot.type = 'text';
+    honeypot.name = 'company';
+    honeypot.id = 'company';
+    honeypot.tabIndex = -1;
+    honeypot.autocomplete = 'off';
+    honeypot.style.position = 'absolute';
+    honeypot.style.left = '-9999px';
+    document.body.appendChild(honeypot);
+  });
 
-// Track page load time
-const pageLoadedAt = Date.now();
-
-// Create a hidden honeypot input
-document.addEventListener('DOMContentLoaded', () => {
-  const honeypot = document.createElement('input');
-  honeypot.type = 'text';
-  honeypot.name = 'company'; // common bot target
-  honeypot.id = 'company';
-  honeypot.tabIndex = -1;
-  honeypot.autocomplete = 'off';
-  honeypot.style.position = 'absolute';
-  honeypot.style.left = '-9999px';
-
-  document.body.appendChild(honeypot);
-});
-
-// Bot check helper
-function isBotSubmission() {
-  const honeypot = document.getElementById('company');
-  const timeSpent = Date.now() - pageLoadedAt;
-
-  // If hidden field filled OR form submitted too fast
-  return (
-    (honeypot && honeypot.value.trim() !== '') ||
-    timeSpent < 3000 // less than 3 seconds on page
-  );
-}
+  function isBotSubmission() {
+    var honeypot = document.getElementById('company');
+    var timeSpent = Date.now() - pageLoadedAt;
+    return (honeypot && honeypot.value.trim() !== '') || timeSpent < 3000;
+  }
 </script>
+
 </body>
 </html>
